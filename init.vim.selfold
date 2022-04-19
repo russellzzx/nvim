@@ -1,0 +1,364 @@
+
+" ==================== Editor behavior ====================
+set number
+set relativenumber
+set cursorline
+set tabstop=2
+set shiftwidth=2
+set autoindent
+set scrolloff=9
+set wrap
+set ignorecase
+set smartcase
+set shortmess+=c
+set visualbell
+setlocal spell spelllang=en_us,cjk
+"colorscheme gruvbox
+set updatetime=10
+set hidden
+
+" ==================== Terminal Behaviors ====================
+
+
+" ==================== Basic Mappings ====================
+let mapleader="\\"
+
+" Open the vimrc file anytime
+
+" Search
+noremap <LEADER><CR> :nohlsearch<CR>
+" Adjacent duplicate words
+"noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
+" Space to Tab
+
+" Folding
+"noremap <silent> <LEADER>o za
+
+" Ctrl + U or E will move up/down the view port without moving the cursor
+"noremap <C-U> 5<C-y>
+"noremap <C-M> 5<C-e>
+
+" Custom cursor movement
+"source $HOME/.config/nvim/cursor.vim
+" If you use Qwerty keyboard, uncomment the next line.
+" source $HOME/nvim/cursor_for_qwerty.vim
+
+
+" ==================== Window management ====================
+" Use <space> + new arrow keys for moving the cursor around windows
+"noremap <LEADER>w <C-w>w
+"noremap <LEADER>l <C-w>k
+"noremap <LEADER>n <C-w>j
+"noremap <LEADER>s <C-w>h
+"noremap <LEADER>r <C-w>l
+"noremap qf <C-w>o
+" Disable the default s key
+"noremap t <nop>
+" split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
+"noremap gn :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+"noremap gl :set splitbelow<CR>:split<CR>
+"noremap gr :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+"noremap gs :set splitright<CR>:vsplit<CR>
+
+" Place the two screens up and down
+"noremap gv <C-w>t<C-w>K
+" Place the two screens side by side
+"noremap gw <C-w>t<C-w>H
+" Rotate screens
+"noremap gq <C-w>b<C-w>K
+"noremap gh <C-w>b<C-w>H
+" Press <SPACE> + q to close the window below the current window
+"noremap <LEADER>q <C-w>j:q<CR>
+
+
+" ==================== Tab management ====================
+" Create a new tab with tu
+"noremap gt :tabe<CR>
+"noremap gT :tab split<CR>
+" " Move around tabs with tn and ti
+"noremap gc :tabnext<CR>
+"noremap gm :tabnext<CR>
+" Move the tabs with tmn and tmi
+"noremap tmn :-tabmove<CR>
+"noremap tmi :+tabmove<CR>
+"noremap gx :tabclose<CR>
+
+" Open a new instance of st with the cwd
+"nnoremap \t :tabe<CR>:-tabmove<CR>:term sh -c 'st'<CR><C-\><C-N>:q<CR>
+" Opening a terminal window
+"noremap <LEADER>/ :set splitbelow<CR>:split<CR>:res +10<CR>:term<CR>
+" Press space twice to jump to the next '<++>' and edit it
+"noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4i
+" Spelling Check with <space>sc
+"noremap <LEADER>p :set spell!<CR>
+" Auto change directory to current dir
+"autocmd BufEnter * silent! lcd %:p:h
+" find and replace
+"noremap <LEADER>e :%s//g<left><left>
+" press f10 to show hlgroup
+"function! SynGroup()
+"	let l:s = synID(line('.'), col('.'), 1)
+"	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+"endfun
+"map <F10> :call SynGroup()<CR>
+
+" Compile function
+"noremap j :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+	exec "w"
+	if &filetype == 'c'
+		set splitbelow
+		:sp
+		:res -5
+		term gcc % -o %< && time ./%<
+	elseif &filetype == 'cpp'
+		set splitbelow
+		exec "!g++ -std=c++11 % -Wall -o %<"
+		:sp
+		:res -15
+		:term ./%<
+	elseif &filetype == 'java'
+		set splitbelow
+		:sp
+		:res -5
+		term javac % && time java %<
+	elseif &filetype == 'sh'
+		:!time bash %
+	elseif &filetype == 'python'
+		set splitbelow
+		:sp
+		:term python3 %
+	elseif &filetype == 'markdown'
+		exec "InstantMarkdownPreview"
+	elseif &filetype == 'tex'
+		silent! exec "VimtexStop"
+		silent! exec "VimtexCompile"
+	elseif &filetype == 'javascript'
+		set splitbelow
+		:sp
+		:term export DEBUG="INFO,ERROR,WARNING"; node --trace-warnings .
+	elseif &filetype == 'racket'
+		set splitbelow
+		:sp
+		:res -5
+		term racket %
+	elseif &filetype == 'go'
+		set splitbelow
+		:sp
+		:term go run .
+	endif
+endfunc
+
+
+" ==================== Install Plugins with Vim-Plug ====================
+call plug#begin('$HOME/.config/nvim/plugged')
+
+"Plug 'morhetz/gruvbox'
+
+" Pretty Dress
+"Plug 'theniceboy/nvim-deus'
+"Plug 'arzg/vim-colors-xcode'
+
+" Status line
+"Plug 'theniceboy/eleline.vim', { 'branch': 'no-scrollbar' }
+
+"airline
+"Plug 'vim-airline/vim-airline'
+
+" General Highlighter
+"Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+"Plug 'RRethy/vim-illuminate'
+
+" File navigation
+"Plug 'ibhagwan/fzf-lua'
+"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"Plug 'junegunn/fzf.vim'
+"Plug 'kevinhwang91/rnvimr'
+"Plug 'airblade/vim-rooter'
+"Plug 'pechorin/any-jump.vim'
+
+" Debugger
+" Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
+
+" Auto Complete
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': 'v0.0.79'}
+"Plug 'wellle/tmux-complete.vim'
+
+" Snippets
+" Plug 'SirVer/ultisnips'
+"Plug 'theniceboy/vim-snippets'
+"Plug 'honza/vim-snippets'
+" Undo Tree
+"Plug 'mbbill/undotree'
+
+" Git
+"Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] }
+"Plug 'theniceboy/fzf-gitignore', { 'do': ':UpdateRemotePlugins' }
+"Plug 'mhinz/vim-signify'
+"Plug 'airblade/vim-gitgutter'
+"Plug 'cohama/agit.vim'
+"Plug 'kdheepak/lazygit.nvim'
+
+
+" HTML, CSS, JavaScript, Typescript, PHP, JSON, etc.
+Plug 'elzr/vim-json'
+"Plug 'neoclide/jsonc.vim'
+
+" Python
+"Plug 'Vimjas/vim-python-pep8-indent', { 'for' :['python', 'vim-plug'] }
+"Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for' :['python', 'vim-plug'] }
+"Plug 'tweekmonster/braceless.vim', { 'for' :['python', 'vim-plug'] }
+
+
+call plug#end()
+
+set re=0
+
+
+" ==================== Dress up my vim ====================
+"set termguicolors " enable true colors support
+"let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"silent! color deus
+
+"hi NonText ctermfg=gray guifg=grey10
+"hi SpecialKey ctermfg=blue guifg=grey70
+
+" ==================== eleline.vim ====================
+"let g:airline_powerline_fonts = 0
+
+
+" ==================== GitGutter ====================
+" let g:gitgutter_signs = 0
+"let g:gitgutter_sign_allow_clobber = 0
+"let g:gitgutter_map_keys = 0
+"let g:gitgutter_override_sign_column_highlight = 0
+"let g:gitgutter_preview_win_floating = 1
+"let g:gitgutter_sign_added = '▎'
+"let g:gitgutter_sign_modified = '░'
+"let g:gitgutter_sign_removed = '▏'
+"let g:gitgutter_sign_removed_first_line = '▔'
+"let g:gitgutter_sign_modified_removed = '▒'
+"nnoremap <LEADER>gf :GitGutterFold<CR>
+"nnoremap H :GitGutterPreviewHunk<CR>
+"nnoremap <LEADER>g- :GitGutterPrevHunk<CR>
+"nnoremap <LEADER>g= :GitGutterNextHunk<CR>
+
+
+" ==================== coc.nvim ====================
+let g:coc_global_extensions = [
+	\ 'coc-diagnostic',
+	\ 'coc-explorer',
+	\ 'coc-gitignore',
+	\ 'coc-import-cost',
+	\ 'coc-java',
+	\ 'coc-jest',
+	\ 'coc-json',
+	\ 'coc-lists',
+	\ 'coc-pyright',
+	\ 'coc-snippets',
+	\ 'coc-syntax',
+	\ 'coc-tasks',
+	\ 'coc-translator',
+	\ 'coc-vimlsp',
+	\ 'coc-yaml',
+	\ 'coc-yank',
+	\'coc-clangd',
+	\'coc-clang-format-style-options',
+	\'coc-sh',
+	\'coc-cmake' ]
+inoremap <silent><expr> <TAB>
+	\ pumvisible() ? "\<C-n>" :
+	\ <SID>check_back_space() ? "\<TAB>" :
+	\ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+"inoremap <silent><expr> <c-space> coc#refresh()
+"inoremap <silent><expr> <c-o> coc#refresh()
+function! Show_documentation()
+	call CocActionAsync('highlight')
+	if (index(['vim','help'], &filetype) >= 0)
+		execute 'h '.expand('<cword>')
+	else
+		call CocAction('doHover')
+	endif
+endfunction
+"nnoremap <LEADER>hh :call Show_documentation()<CR>
+" set runtimepath^=~/.config/nvim/coc-extensions/coc-flutter-tools/
+" let g:coc_node_args = ['--nolazy', '--inspect-brk=6045']
+" let $NVIM_COC_LOG_LEVEL = 'debug'
+" let $NVIM_COC_LOG_FILE = '/Users/david/Desktop/log.txt'
+
+"nnoremap <silent><nowait> <LEADER>d :CocList diagnostics<cr>
+"nmap <silent> <LEADER>- <Plug>(coc-diagnostic-prev)
+"nmap <silent> <LEADER>= <Plug>(coc-diagnostic-next)
+"nnoremap <c-c> :CocCommand<CR>
+" Text Objects
+"xmap kf <Plug>(coc-funcobj-i)
+"xmap af <Plug>(coc-funcobj-a)
+"omap kf <Plug>(coc-funcobj-i)
+"omap af <Plug>(coc-funcobj-a)
+"xmap kc <Plug>(coc-classobj-i)
+"omap kc <Plug>(coc-classobj-i)
+"xmap ac <Plug>(coc-classobj-a)
+"omap ac <Plug>(coc-classobj-a)
+" Useful commands
+"nnoremap <silent> <space>y :<C-u>CocList -A --normal yank<cr>
+"nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gD :tab sp<CR><Plug>(coc-definition)
+"nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gR <Plug>(coc-references)
+"nmap <leader>ha <Plug>(coc-rename)
+"nmap tt :CocCommand explorer<CR>
+" coc-translator
+"nmap ta <Plug>(coc-translator-p)
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+"xmap <leader>a  <Plug>(coc-codeaction-selected)
+"nmap <leader>a  <Plug>(coc-codeaction-selected)
+" coctodolist
+" nnoremap <leader>tn :CocCommand todolist.create<CR>
+" nnoremap <leader>tl :CocList todolist<CR>
+" nnoremap <leader>tu :CocCommand todolist.download<CR>:CocCommand todolist.upload<CR>
+" coc-tasks
+"noremap <silent> <leader>ts :CocList tasks<CR>
+" coc-snippets
+"imap <C-l> <Plug>(coc-snippets-expand)
+"vmap <C-e> <Plug>(coc-snippets-select)
+"let g:coc_snippet_next = '<c-s>'
+"let g:coc_snippet_prev = '<c-n>'
+"imap <TAB> <Plug>(coc-snippets-expand-jump)
+autocmd BufRead,BufNewFile tsconfig.json set filetype=jsonc
+
+
+
+
+" ==================== Terminal Colors ====================
+let g:terminal_color_0  = '#000000'
+let g:terminal_color_1  = '#FF5555'
+let g:terminal_color_2  = '#50FA7B'
+let g:terminal_color_3  = '#F1FA8C'
+let g:terminal_color_4  = '#BD93F9'
+let g:terminal_color_5  = '#FF79C6'
+let g:terminal_color_6  = '#8BE9FD'
+let g:terminal_color_7  = '#BFBFBF'
+let g:terminal_color_8  = '#4D4D4D'
+let g:terminal_color_9  = '#FF6E67'
+let g:terminal_color_10 = '#5AF78E'
+let g:terminal_color_11 = '#F4F99D'
+let g:terminal_color_12 = '#CAA9FA'
+let g:terminal_color_13 = '#FF92D0'
+let g:terminal_color_14 = '#9AEDFE'
+
+
+" ==================== Necessary Commands to Execute ====================
+exec "nohlsearch"
