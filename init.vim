@@ -52,6 +52,7 @@ map jy :tabclose<CR>
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 Plug 'connorholyday/vim-snazzy'
 
@@ -60,11 +61,22 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mg979/vim-visual-multi'
 
 Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to change 'word' to `word`
+Plug 'tpope/vim-repeat'
 
 Plug 'gcmt/wildfire.vim' " in Visual mode, type k' to select all text in '', or type k) k] k} kp
 
+Plug 'ctrlpvim/ctrlp.vim'
+
+Plug 'mileszs/ack.vim'
+
+Plug 'tomtom/tcomment_vim'
+
+Plug 'honza/vim-snippets'
+
 call plug#end()
 
+"use ack instead of grep
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 "snazzy should be set after Plug
 try
