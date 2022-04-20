@@ -1,5 +1,8 @@
 let g:python3_host_prog='/usr/bin/python3'
 
+"set Y same as ctrl+C
+vnoremap Y "+y
+
 "filetype
 filetype on
 filetype indent on
@@ -73,17 +76,23 @@ Plug 'tomtom/tcomment_vim'
 
 Plug 'honza/vim-snippets'
 
+
+Plug 'airblade/vim-gitgutter'
+Plug 'cohama/agit.vim'
+Plug 'kdheepak/lazygit.nvim'
+
 call plug#end()
 
 "use ack instead of grep
 let g:ackprg = 'ag --nogroup --nocolor --column'
-
+"let g:molokai_original = 1
+"let g:rehash256 = 1
 "snazzy should be set after Plug
 try
+  color gruvbox
+catch
   color snazzy
   let g:SnazzyTransparent = 1
-catch
-  color darkblue
 endtry
 
 " TextEdit might fail if hidden is not set.
