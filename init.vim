@@ -33,6 +33,13 @@ noremap <LEADER><CR> :nohlsearch<CR>
 "noremap <LEADER>S :w<CR>
 "noremap <LEADER>q :q<CR>
 
+"resize window
+map h <nop>
+map hu :res +5<cr>
+map hi :res -5<cr>
+map ho :vertical resize -5<cr>
+map ht :vertical resize +5<cr>
+
 map j <nop>
 map <leader>r :set splitright<CR>:vsplit<CR>
 map <leader>s :set nosplitright<CR>:vsplit<CR>
@@ -44,6 +51,7 @@ map ji <C-w><down>
 map jo <C-w><left>
 map jt <C-w><right>
 
+"rotate tab
 map ja <C-w>t<C-w>H
 map je <C-w>t<C-w>K
 
