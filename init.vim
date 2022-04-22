@@ -81,7 +81,18 @@ Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'
 Plug 'kdheepak/lazygit.nvim'
 
+Plug 'ianding1/leetcode.vim'
+
 call plug#end()
+
+"leetcode setting
+let g:leetcode_china = 1
+let g:leetcode_browser = 'chrome'
+let g:leetcode_solution_filetype = 'cpp'
+"let g:leetcode_hide_paid_only = 0
+"let g:leetcode_hide_topics = 0
+"let g:leetcode_hide_companies = 0
+"let g:leetcode_problemset = 'all'
 
 "use ack instead of grep
 let g:ackprg = 'ag --nogroup --nocolor --column'
