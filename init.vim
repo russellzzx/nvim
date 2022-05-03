@@ -1,7 +1,8 @@
 let g:python3_host_prog='/usr/bin/python3'
 
+set clipboard+=unnamedplus
 "set Y same as ctrl+C
-vnoremap Y "+y
+"vnoremap Y "+y
 
 "filetype
 filetype on
@@ -40,6 +41,7 @@ map hi :res -5<cr>
 map ho :vertical resize -5<cr>
 map ht :vertical resize +5<cr>
 
+"split window
 map j <nop>
 map <leader>r :set splitright<CR>:vsplit<CR>
 map <leader>s :set nosplitright<CR>:vsplit<CR>
@@ -56,8 +58,8 @@ map ja <C-w>t<C-w>H
 map je <C-w>t<C-w>K
 
 "tab
-map j; :tabe<CR>
-map jy :tabclose<CR>
+map j, :tabe<CR>
+map j. :tabclose<CR>
 
 "Plug
 call plug#begin('~/.vim/plugged')
@@ -89,14 +91,87 @@ Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'
 Plug 'kdheepak/lazygit.nvim'
 
-Plug 'ianding1/leetcode.vim'
+"Plug 'ianding1/leetcode.vim'
+
+" Markdown
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
+Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
+Plug 'dkarter/bullets.vim'
+
+" Other visual enhancement
+Plug 'luochen1990/rainbow'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'jiangmiao/auto-pairs'
+Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'wincent/terminus'
+
+"Plug 'voldikss/vim-codelf'
+
+
+" Other useful utilities
+Plug 'lambdalisue/suda.vim' " do stuff like :sudowrite
+
+Plug 'github/copilot.vim'
 
 call plug#end()
 
+"====================cpp-enhanced-highlight
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_posix_standard = 1
+let g:cpp_experimental_simple_template_highlight = 1
+"let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
+let g:cpp_no_function_highlight = 0
+
+"==================== rainbow ====================
+let g:rainbow_active = 1
+
+" ==================== suda.vim ====================
+cnoreabbrev sudowrite w suda://%
+cnoreabbrev sw w suda://%
+let g:suda_smart_edit = 1
+
+" ==================== vim-instant-markdown ====================
+let g:instant_markdown_slow = 0
+let g:instant_markdown_autostart = 0
+" let g:instant_markdown_open_to_the_world = 1
+" let g:instant_markdown_allow_unsafe_content = 1
+" let g:instant_markdown_allow_external_content = 0
+" let g:instant_markdown_mathjax = 1
+let g:instant_markdown_autoscroll = 1
+
+
+" ==================== Bullets.vim ====================
+" let g:bullets_set_mappings = 0
+let g:bullets_enabled_file_types = [
+			\ 'markdown',
+			\ 'text',
+			\ 'gitcommit',
+			\ 'scratch'
+			\]
+
+
+" ==================== vim-markdown-toc ====================
+"let g:vmt_auto_update_on_save = 0
+"let g:vmt_dont_insert_fence = 1
+let g:vmt_cycle_list_item_markers = 1
+let g:vmt_fence_text = 'TOC'
+let g:vmt_fence_closing_text = '/TOC'
+
+
+"codelf Example key mappings configuration
+"let g:codelf_enable_popup_menu=1
+"inoremap <silent> <F9> <C-R>=codelf#start()<CR>
+"nnoremap <silent> <F9> :call codelf#start()<CR>
+
 "leetcode setting
-let g:leetcode_china = 1
-let g:leetcode_browser = 'chrome'
-let g:leetcode_solution_filetype = 'cpp'
+"let g:leetcode_china = 1
+"let g:leetcode_browser = 'chrome'
+"let g:leetcode_solution_filetype = 'cpp'
 "let g:leetcode_hide_paid_only = 0
 "let g:leetcode_hide_topics = 0
 "let g:leetcode_hide_companies = 0
@@ -108,19 +183,37 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 "let g:rehash256 = 1
 "snazzy should be set after Plug
 try
-  color gruvbox
-catch
   color snazzy
   let g:SnazzyTransparent = 1
+catch
+  color gruvbox
 endtry
 
 " TextEdit might fail if hidden is not set.
 set hidden
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
-set updatetime=10
+set updatetime=100
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
+
+let g:coc_global_extensions = [
+	\ 'coc-diagnostic',
+	\ 'coc-explorer',
+	\ 'coc-java',
+	\ 'coc-json',
+	\ 'coc-lists',
+	\ 'coc-pyright',
+	\ 'coc-snippets',
+	\ 'coc-translator',
+	\ 'coc-vimlsp',
+	\ 'coc-yank',
+	\'coc-clangd',
+	\'coc-clang-format-style-options',
+	\'coc-sh',
+	\'coc-cmake',
+        \'coc-tabnine']
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
