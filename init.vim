@@ -1,8 +1,9 @@
 let g:python3_host_prog='/usr/bin/python3'
 
+"set clipboard can be used by other applications
 set clipboard+=unnamedplus
 "set Y same as ctrl+C
-"vnoremap Y "+y
+vnoremap Y "+y
 
 "filetype
 filetype on
@@ -109,6 +110,8 @@ Plug 'wincent/terminus'
 
 "Plug 'voldikss/vim-codelf'
 
+"clipboard enhancement
+Plug 'junegunn/vim-peekaboo'
 
 " Other useful utilities
 Plug 'lambdalisue/suda.vim' " do stuff like :sudowrite
@@ -213,6 +216,8 @@ let g:coc_global_extensions = [
 	\'coc-sh',
 	\'coc-cmake',
         \'coc-tabnine']
+
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
